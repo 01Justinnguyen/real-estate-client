@@ -1,10 +1,10 @@
-import { Rubik } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
-const rubik = Rubik({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-rubik'
+  display: 'swap'
 })
 
 export const fonts = {
-  rubik
+  inter
 }

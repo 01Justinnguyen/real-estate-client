@@ -1,5 +1,4 @@
 // {
-//   "extends": "next/core-web-vitals"
 // }
 
 {
@@ -15,7 +14,8 @@
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "eslint-config-prettier",
-    "prettier"
+    "prettier",
+    "extends:next/core-web-vitals"
   ],
   "plugins": ["prettier"],
   "settings": {
@@ -24,8 +24,9 @@
     },
     "import/resolver": {
       "node": {
-        "paths": ["./"],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "typescript": {},
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
       }
     }
   },
