@@ -1,15 +1,12 @@
-'use client'
-
-import { Box, Button, Flex, IconButton, Spacer, Text, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import { HiOutlineMailOpen } from 'react-icons/hi'
 import { FaFacebookF, FaDribbble, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
 import { FiPhone } from 'react-icons/fi'
 import { usePathname } from 'next/navigation'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import DarkLightMode from '@/components/common/DarkLightMode'
 
 export default function TopHeader() {
   const pathname = usePathname()
-  const { colorMode, toggleColorMode } = useColorMode()
   return (
     <Box
       sx={{ borderBottom: '2px #fff' }}
@@ -29,16 +26,7 @@ export default function TopHeader() {
 
         <Flex>
           <Flex alignItems='center' gap='6'>
-            <IconButton
-              aria-label='darklight-mode'
-              icon={colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
-              onClick={toggleColorMode}
-              className='!px-0'
-              variant={''}
-              _hover={{
-                bg: 'gray.500'
-              }}
-            />
+            <DarkLightMode />
             <FaFacebookF color='white' className='text-[20px]' />
             <FaDribbble color='white' className='text-[20px]' />
             <FaLinkedinIn color='white' className='text-[20px]' />
