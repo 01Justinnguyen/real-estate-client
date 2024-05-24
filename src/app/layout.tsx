@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
-import { fonts } from './fonts'
 import { ColorModeScript } from '@chakra-ui/react'
 import theme from './theme'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' className={fonts.rubik.variable}>
-      <body>
+    <html lang='en' suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Providers>{children}</Providers>
       </body>
