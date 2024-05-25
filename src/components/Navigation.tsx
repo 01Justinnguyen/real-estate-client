@@ -1,12 +1,14 @@
-import ModalForm from '@/components/common/ModalForm'
 import { navigation } from '@/constants/constants'
+import { useAppStore } from '@/store/useAppStore'
+import { useUserStore } from '@/store/useUserStore'
 import { Box, Button, Flex, Image, Stack, useDisclosure } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export default function Navigation() {
   const pathname = usePathname()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { setShowModal } = useAppStore()
+  const { token } = useUserStore()
   return (
     <>
       <Box p='26px 100px' w='100%' position='fixed' zIndex='50' h='85px' bg='transparent' top='85px'>
@@ -35,21 +37,34 @@ export default function Navigation() {
                 </Link>
               )
             })}
-            <Button
-              _hover={{
-                bg: 'gray.500'
-              }}
-              onClick={onOpen}
-              fontWeight={400}
-              color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
-              variant='outline'
-            >
-              Add Listing
-            </Button>
+            {!token ? (
+              <Button
+                _hover={{
+                  bg: 'gray.500'
+                }}
+                onClick={() => setShowModal(true)}
+                fontWeight={400}
+                color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
+                variant='outline'
+              >
+                Sign In
+              </Button>
+            ) : (
+              <Button
+                _hover={{
+                  bg: 'gray.500'
+                }}
+                onClick={() => setShowModal(true)}
+                fontWeight={400}
+                color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
+                variant='outline'
+              >
+                Add Listing
+              </Button>
+            )}
           </Stack>
         </Flex>
       </Box>
-      <ModalForm isOpen={isOpen} onClose={onClose} />
     </>
   )
 }
