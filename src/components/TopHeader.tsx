@@ -2,11 +2,11 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { HiOutlineMailOpen } from 'react-icons/hi'
 import { FaFacebookF, FaDribbble, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
 import { FiPhone } from 'react-icons/fi'
-import { usePathname } from 'next/navigation'
 import DarkLightMode from '@/components/common/DarkLightMode'
+import useClientPathName from '@/hooks/useClientPathName'
 
 export default function TopHeader() {
-  const pathname = usePathname()
+  const pathname = useClientPathName()
   return (
     <Box
       sx={{ borderBottom: '2px #fff' }}
