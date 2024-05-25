@@ -41,6 +41,7 @@ export default function ModalForm({ isOpen, onClose }: ModalFormTypes) {
             <TabList mb='1em'>
               <Tab>Login</Tab>
               <Tab>Register</Tab>
+              <Tab>Forgot</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -104,6 +105,23 @@ export default function ModalForm({ isOpen, onClose }: ModalFormTypes) {
                 <ModalFooter>
                   <Button colorScheme='blue' mr={3}>
                     Sign up
+                  </Button>
+                  <Button onClick={onClose}>Cancel</Button>
+                </ModalFooter>
+              </TabPanel>
+              <TabPanel>
+                <ModalHeader>Forgot password</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody pb={6}>
+                  <FormControl>
+                    <FormLabel>Phone Number</FormLabel>
+                    <Input ref={initialRef} placeholder='Type your phone number' />
+                  </FormControl>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button colorScheme='blue' mr={3}>
+                    Submit
                   </Button>
                   <Button onClick={onClose}>Cancel</Button>
                 </ModalFooter>
