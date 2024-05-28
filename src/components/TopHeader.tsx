@@ -20,7 +20,7 @@ export default function TopHeader() {
     >
       <Flex alignItems='center' justifyContent='space-between'>
         <Flex as='div' alignItems='center' gap='2'>
-          <HiOutlineMailOpen color='white' className='text-[24px]' />
+          <HiOutlineMailOpen color='white' fontSize='24px' />
           <Text color='white'>Email us at : liam@mail.com</Text>
         </Flex>
 
