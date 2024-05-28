@@ -1,6 +1,6 @@
 'use client'
 
-import ModalForm from '@/components/common/ModalForm'
+import AuthModalForm from '@/components/common/AuthModalForm'
 import Navigation from '@/components/Navigation'
 import TopHeader from '@/components/TopHeader'
 import useClientPathName from '@/hooks/useClientPathName'
@@ -20,7 +20,7 @@ export default function AuthLayout({
       <TopHeader />
       <Navigation />
       <Box pt={`${pathname !== '/' ? '170px' : '0px'}`}>{children}</Box>
-      <ModalForm isOpen={isShowModal} onClose={() => setShowModal(false)} />
+      <AuthModalForm isOpen={isShowModal} onClose={() => setShowModal(false)} />
     </div>
   )
 }
