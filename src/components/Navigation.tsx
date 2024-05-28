@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Navigation() {
   const pathname = usePathname()
+  console.log('🐻 ~ Navigation ~ pathname:', pathname)
   const { setShowModal } = useAppStore()
   const { token } = useUserStore()
   return (
@@ -15,7 +16,7 @@ export default function Navigation() {
         <Flex justifyContent='space-between' gap='2'>
           <Link href={'/'}>
             <Image
-              srcSet={`${pathname !== '/' ? '/images/logo.png 2x' : '/images/logo2x.png 2x'}`}
+              srcSet={`${pathname && pathname !== '/' ? '/images/logo.png 2x' : '/images/logo2x.png 2x'}`}
               fill='primary.500'
             />
           </Link>
@@ -30,7 +31,7 @@ export default function Navigation() {
                       fontWeight: 600
                     }}
                     fontWeight={400}
-                    color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
+                    color={`${pathname !== null && pathname === '/' ? 'white' : 'primary.900'}`}
                   >
                     {navItem.content}
                   </Button>
@@ -44,7 +45,7 @@ export default function Navigation() {
                 }}
                 onClick={() => setShowModal(true)}
                 fontWeight={400}
-                color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
+                color={`${pathname !== null && pathname !== '/' ? 'primary.900' : 'white'}`}
                 variant='outline'
               >
                 Sign In
@@ -56,7 +57,7 @@ export default function Navigation() {
                 }}
                 onClick={() => setShowModal(true)}
                 fontWeight={400}
-                color={`${pathname !== '/' ? 'primary.900' : 'white'}`}
+                color={`${pathname && pathname !== '/' ? 'primary.900' : 'white'}`}
                 variant='outline'
               >
                 Add Listing
