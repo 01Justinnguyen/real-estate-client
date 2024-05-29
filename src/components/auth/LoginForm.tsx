@@ -1,6 +1,7 @@
 import PasswordInput from '@/components/auth/PasswordInput'
 import envConfig from '@/config'
 import { LoginBody, LoginBodyType } from '@/schemaValidations/authSchemaValidation'
+import { useAppStore } from '@/store/useAppStore'
 import {
   Button,
   FormControl,
@@ -24,6 +25,7 @@ interface LoginFormProps extends InputProps {
 }
 
 export default function LoginForm({ onClose, initialRef }: LoginFormProps) {
+  const { setToken } = useAppStore()
   const toast = useToast()
   const {
     register,
@@ -51,16 +53,35 @@ export default function LoginForm({ onClose, initialRef }: LoginFormProps) {
         if (!res.ok) {
           throw data
         }
-        toast({
-          title: 'Thành công.',
-          description: `${res.status}`,
-          status: 'success',
-          position: 'top-right',
-          duration: 4000,
-          isClosable: true
-        })
         return data
       })
+      toast({
+        title: 'Thành công.',
+        description: `${result.status}`,
+        status: 'success',
+        position: 'top-right',
+        duration: 4000,
+        isClosable: true
+      })
+      const resultFromNextServer = await fetch('/api/auth', {
+        body: JSON.stringify(result),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      }).then(async (res) => {
+        const payload = await res.json()
+        const data = {
+          status: res.status,
+          payload
+        }
+        if (!res.ok) {
+          throw data
+        }
+        return data
+      })
+      console.log('🐻 ~ onSubmit ~ resultFromNextServer:', resultFromNextServer)
+      setToken(resultFromNextServer.payload.data.refresh_token)
     } catch (error: any) {
       const status = error.status as number
       if (status === 401) {
