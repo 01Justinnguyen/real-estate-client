@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 import { ColorModeScript } from '@chakra-ui/react'
-
+import { cookies } from 'next/headers'
 import theme from './theme'
 import './globals.css'
 
@@ -15,11 +15,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const token = cookies().get('refreshToken')?.value
   return (
     <html lang='en' suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Providers>{children}</Providers>
+        <Providers initialToken={token}>{children}</Providers>
       </body>
     </html>
   )
