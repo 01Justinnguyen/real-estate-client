@@ -3,7 +3,6 @@ import theme from '@/app/theme'
 import { ChakraProvider } from '@chakra-ui/react'
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
-import { useCookies } from 'react-cookie'
 import { useAppStore } from '@/store/useAppStore'
 import { useEffect } from 'react'
 const cache = createCache({ key: 'css', prepend: true })
