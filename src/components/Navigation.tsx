@@ -1,15 +1,12 @@
 import { navigation } from '@/constants/constants'
 import { useAppStore } from '@/store/useAppStore'
-import { useUserStore } from '@/store/useUserStore'
-import { Box, Button, Flex, Image, Stack, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Stack } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export default function Navigation() {
   const pathname = usePathname()
-  console.log('🐻 ~ Navigation ~ pathname:', pathname)
-  const { setShowModal } = useAppStore()
-  const { token } = useUserStore()
+  const { setShowModal, token } = useAppStore()
   return (
     <>
       <Box p='26px 100px' w='100%' position='fixed' zIndex='50' h='85px' bg='transparent' top='85px'>
