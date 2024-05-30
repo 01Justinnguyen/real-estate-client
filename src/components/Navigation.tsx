@@ -1,13 +1,34 @@
+import authApiRequest from '@/apis/auth'
 import { clientSessionToken } from '@/app/http'
 import { navigation } from '@/constants/constants'
 import { useAppStore } from '@/store/useAppStore'
-import { Box, Button, Flex, Image, Stack } from '@chakra-ui/react'
+import { handleErrorApi } from '@/utils/errorsHandler'
+import { Box, Button, Flex, Image, Stack, useToast } from '@chakra-ui/react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navigation() {
   const pathname = usePathname()
   const { setShowModal } = useAppStore()
+  const toast = useToast()
+
+  const handleLogout = async () => {
+    try {
+      await authApiRequest.logoutFromNextClientToNextServer()
+      toast({
+        title: 'Thành công.',
+        description: `Đăng xuất thành công`,
+        status: 'success',
+        position: 'top-right',
+        duration: 4000,
+        isClosable: true
+      })
+    } catch (errors) {
+      handleErrorApi({
+        errors
+      })
+    }
+  }
   return (
     <>
       <Box p='26px 100px' w='100%' position='fixed' zIndex='50' h='85px' bg='transparent' top='85px'>
@@ -49,17 +70,30 @@ export default function Navigation() {
                 Sign In
               </Button>
             ) : (
-              <Button
-                _hover={{
-                  bg: 'gray.500'
-                }}
-                onClick={() => setShowModal(true)}
-                fontWeight={400}
-                color={`${pathname && pathname !== '/' ? 'primary.900' : 'white'}`}
-                variant='outline'
-              >
-                Add Listing
-              </Button>
+              <>
+                <Button
+                  _hover={{
+                    bg: 'gray.500'
+                  }}
+                  onClick={() => setShowModal(true)}
+                  fontWeight={400}
+                  color={`${pathname && pathname !== '/' ? 'primary.900' : 'white'}`}
+                  variant='outline'
+                >
+                  Add Listing
+                </Button>
+                <Button
+                  _hover={{
+                    bg: 'gray.500'
+                  }}
+                  onClick={handleLogout}
+                  fontWeight={400}
+                  color={`${pathname && pathname !== '/' ? 'primary.900' : 'white'}`}
+                  variant='outline'
+                >
+                  Logout
+                </Button>
+              </>
             )}
           </Stack>
         </Flex>
