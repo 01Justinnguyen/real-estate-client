@@ -1,17 +1,18 @@
 'use client'
-import envConfig from '@/config'
-import { useAppStore } from '@/store/useAppStore'
+import accountApiRequest from '@/apis/client'
+import { clientSessionToken } from '@/app/http'
+import { useEffect } from 'react'
 
 export default function PropertiesPage() {
   console.log('Đây là client component PropertiesPage')
-  const { token } = useAppStore()
-  console.log('🐻 ~ PropertiesPage ~ token from client component:', token)
-  // const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/v1/test`, {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${token}`
-  //   }
-  // }).then((res) => res.json())
-  // console.log('🐻 ~ PropertiesPage ~ result:', result)
+  console.log('Đây là server component OutAgentsPage', clientSessionToken.value)
+  useEffect(() => {
+    async function fetchGetMeFromClient() {
+      const result = await accountApiRequest.getMeProfile()
+      console.log('🐻 ~ PropertiesPage ~ result:', result)
+    }
+    fetchGetMeFromClient()
+  }, [])
+
   return <div>Properties page</div>
 }
