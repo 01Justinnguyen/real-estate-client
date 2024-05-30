@@ -22,6 +22,7 @@ import { Controller, useForm } from 'react-hook-form'
 import PasswordInput from '@/components/auth/PasswordInput'
 import authApiRequest from '@/apis/auth'
 import { clientSessionToken } from '@/app/http'
+import { handleErrorApi } from '@/utils/errorsHandler'
 
 interface RegisterFormProps extends InputProps {
   onClose: () => void
@@ -33,6 +34,7 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
   const {
     register,
     control,
+    setError,
     handleSubmit,
     formState: { errors }
   } = useForm<RegisterBodyType>({
@@ -66,17 +68,10 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
       })
       clientSessionToken.value = result.payload.data.access_token
     } catch (error: any) {
-      const status = error.status as number
-      if (status === 409) {
-        toast({
-          title: 'Lỗi.',
-          description: `${error.payload.message}`,
-          status: 'error',
-          position: 'top-right',
-          duration: 4000,
-          isClosable: true
-        })
-      }
+      handleErrorApi({
+        errors,
+        setError
+      })
     }
   }
 
