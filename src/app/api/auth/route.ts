@@ -19,21 +19,21 @@ export async function POST(request: Request) {
   }
 
   // Accesstoken cookie
-  const accessTokenCookie = serialize('refreshToken', refreshToken, {
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-    secure: process.env.NODE_ENV !== 'development',
-    expires: new Date(refreshExpiresDate)
-  })
-
-  // Refresh token cookie
-  const refreshTokenCookie = serialize('accessToken', accessToken, {
+  const accessTokenCookie = serialize('accessToken', accessToken, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
     secure: process.env.NODE_ENV !== 'development',
     expires: new Date(accessExpiresDate)
+  })
+
+  // Refreshtoken cookie
+  const refreshTokenCookie = serialize('refreshToken', refreshToken, {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    secure: process.env.NODE_ENV !== 'development',
+    expires: new Date(refreshExpiresDate)
   })
 
   const headers = new Headers()
