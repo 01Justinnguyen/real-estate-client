@@ -1,5 +1,6 @@
 import envConfig from '@/config'
 import { RegisterResType } from '@/schemaValidations/authSchemaValidation'
+import { normalizePath } from '@/utils/utils'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
   baseUrl?: string
@@ -15,7 +16,7 @@ type EntityErrorPayload = {
   }[]
 }
 
-class HttpError extends Error {
+export class HttpError extends Error {
   status: number
   payload: {
     message: string
@@ -103,10 +104,13 @@ const request = async <Response>(
     }
   }
 
-  if (['/v1/auth/login', '/v1/auth/register'].includes(url)) {
-    clientSessionToken.value = (payload as RegisterResType).data.access_token
-  } else if ('/v1/auth/logout') {
-    clientSessionToken.value = ''
+  // Đảm bảo đoạn code này chỉ chạy ở client
+  if (typeof window !== 'undefined') {
+    if (['/v1/auth/login', '/v1/auth/register'].some((item) => item === normalizePath(url))) {
+      clientSessionToken.value = (payload as RegisterResType).data.access_token
+    } else if ('/v1/auth/logout' === normalizePath(url)) {
+      clientSessionToken.value = ''
+    }
   }
 
   return data

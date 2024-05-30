@@ -6,6 +6,7 @@ import DarkLightMode from '@/components/common/DarkLightMode'
 import useClientPathName from '@/hooks/useClientPathName'
 
 export default function TopHeader() {
+  console.log('Topherader render ở đâu này')
   const pathname = useClientPathName()
   return (
     <Box
@@ -14,7 +15,7 @@ export default function TopHeader() {
       top='0'
       zIndex='50'
       h='85px'
-      bg={`${pathname !== '/' ? 'primary.700' : 'transparent'}`}
+      // bg={`${pathname !== '/' ? 'primary.700' : 'transparent'}`}
       position='fixed'
       p='26px 100px'
     >

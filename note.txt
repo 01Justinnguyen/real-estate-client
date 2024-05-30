@@ -7,3 +7,5 @@ Những lỗi còn tồn động
 - Lỗi Navigation lần đầu truy cập có màu sắc không đúng với chỉ định
 
 - Lỗi hiển thị màu sắc theme dark light mode của chakra UI
+
+- Lỗi khi đăng xuất button không thay đổi
