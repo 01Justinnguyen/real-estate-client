@@ -2,6 +2,7 @@ import authApiRequest from '@/apis/auth'
 import { clientSessionToken } from '@/app/http'
 import PasswordInput from '@/components/auth/PasswordInput'
 import { LoginBody, LoginBodyType } from '@/schemaValidations/authSchemaValidation'
+import { handleErrorApi } from '@/utils/errorsHandler'
 import {
   Button,
   FormControl,
@@ -29,6 +30,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
   } = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody)
@@ -52,18 +54,11 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         refreshExpiresDate: result.payload.data.refresh_token_expiresAt
       })
       clientSessionToken.value = result.payload.data.access_token
-    } catch (error: any) {
-      const status = error.status as number
-      if (status === 401) {
-        toast({
-          title: 'Lỗi.',
-          description: `${error.payload.message}`,
-          status: 'error',
-          position: 'top-right',
-          duration: 4000,
-          isClosable: true
-        })
-      }
+    } catch (errors: any) {
+      handleErrorApi({
+        errors,
+        setError
+      })
     }
   }
 
