@@ -1,4 +1,3 @@
-'use client'
 import {
   Button,
   FormControl,
@@ -21,14 +20,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { MutableRefObject } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import PasswordInput from '@/components/auth/PasswordInput'
-import envConfig from '@/config'
+import authApiRequest from '@/apis/auth'
+import { clientSessionToken } from '@/app/http'
 
 interface RegisterFormProps extends InputProps {
   onClose: () => void
   initialRef: MutableRefObject<null | HTMLInputElement>
 }
 
-export default function RegisterForm({ onClose, initialRef, ...InputProps }: RegisterFormProps) {
+export default function RegisterForm({ onClose, initialRef }: RegisterFormProps) {
   const toast = useToast()
   const {
     register,
@@ -49,31 +49,22 @@ export default function RegisterForm({ onClose, initialRef, ...InputProps }: Reg
 
   async function onSubmit(values: RegisterBodyType) {
     try {
-      const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/v1/auth/register`, {
-        body: JSON.stringify(values),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      }).then(async (res) => {
-        const payload = await res.json()
-        const data = {
-          status: res.status,
-          payload
-        }
-        if (!res.ok) {
-          throw data
-        }
-        toast({
-          title: 'Thành công.',
-          description: `${res.status}`,
-          status: 'success',
-          position: 'top-right',
-          duration: 4000,
-          isClosable: true
-        })
-        return data
+      const result = await authApiRequest.register(values)
+      toast({
+        title: 'Thành công.',
+        description: `${result.payload.message}`,
+        status: 'success',
+        position: 'top-right',
+        duration: 4000,
+        isClosable: true
       })
+      await authApiRequest.auth({
+        accessToken: result.payload.data.access_token,
+        refreshToken: result.payload.data.refresh_token,
+        accessExpiresDate: result.payload.data.access_token_expiresAt,
+        refreshExpiresDate: result.payload.data.refresh_token_expiresAt
+      })
+      clientSessionToken.value = result.payload.data.access_token
     } catch (error: any) {
       const status = error.status as number
       if (status === 409) {
