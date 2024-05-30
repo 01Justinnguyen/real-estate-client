@@ -1,7 +1,7 @@
+import authApiRequest from '@/apis/auth'
+import { clientSessionToken } from '@/app/http'
 import PasswordInput from '@/components/auth/PasswordInput'
-import envConfig from '@/config'
 import { LoginBody, LoginBodyType } from '@/schemaValidations/authSchemaValidation'
-import { useAppStore } from '@/store/useAppStore'
 import {
   Button,
   FormControl,
@@ -24,12 +24,10 @@ interface LoginFormProps extends InputProps {
   initialRef: MutableRefObject<null | HTMLInputElement>
 }
 
-export default function LoginForm({ onClose, initialRef }: LoginFormProps) {
-  const { setToken } = useAppStore()
+export default function LoginForm({ onClose }: LoginFormProps) {
   const toast = useToast()
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors }
   } = useForm<LoginBodyType>({
@@ -38,50 +36,22 @@ export default function LoginForm({ onClose, initialRef }: LoginFormProps) {
 
   async function onSubmit(values: LoginBodyType) {
     try {
-      const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/v1/auth/login`, {
-        body: JSON.stringify(values),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      }).then(async (res) => {
-        const payload = await res.json()
-        const data = {
-          status: res.status,
-          payload
-        }
-        if (!res.ok) {
-          throw data
-        }
-        return data
-      })
+      const result = await authApiRequest.login(values)
       toast({
         title: 'Thành công.',
-        description: `${result.status}`,
+        description: `${result.payload.message}`,
         status: 'success',
         position: 'top-right',
         duration: 4000,
         isClosable: true
       })
-      const resultFromNextServer = await fetch('/api/auth', {
-        body: JSON.stringify(result),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      }).then(async (res) => {
-        const payload = await res.json()
-        const data = {
-          status: res.status,
-          payload
-        }
-        if (!res.ok) {
-          throw data
-        }
-        return data
+      await authApiRequest.auth({
+        accessToken: result.payload.data.access_token,
+        refreshToken: result.payload.data.refresh_token,
+        accessExpiresDate: result.payload.data.access_token_expiresAt,
+        refreshExpiresDate: result.payload.data.refresh_token_expiresAt
       })
-      console.log('🐻 ~ onSubmit ~ resultFromNextServer:', resultFromNextServer)
-      setToken(resultFromNextServer.payload.data.refresh_token)
+      clientSessionToken.value = result.payload.data.access_token
     } catch (error: any) {
       const status = error.status as number
       if (status === 401) {

@@ -15,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const token = cookies().get('refreshToken')?.value
+  const token = cookies().get('accessToken')?.value
   return (
     <html lang='en' suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
