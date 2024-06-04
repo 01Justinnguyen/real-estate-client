@@ -2,8 +2,6 @@ import { EntityError } from '@/app/http'
 import { createStandaloneToast } from '@chakra-ui/react'
 import { UseFormSetError } from 'react-hook-form'
 
-const { toast } = createStandaloneToast()
-
 export const handleErrorApi = ({
   errors,
   setError,
@@ -13,6 +11,7 @@ export const handleErrorApi = ({
   setError?: UseFormSetError<any>
   duration?: number
 }) => {
+  const { toast } = createStandaloneToast()
   if (errors instanceof EntityError && setError) {
     errors.payload.errors.forEach((error) =>
       setError(error.path, {

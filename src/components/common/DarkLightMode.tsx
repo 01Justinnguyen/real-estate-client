@@ -1,3 +1,5 @@
+'use client'
+
 import { FaMoon } from 'react-icons/fa'
 import { FaSun } from 'react-icons/fa'
 import { IconButton, Tooltip, useColorMode } from '@chakra-ui/react'

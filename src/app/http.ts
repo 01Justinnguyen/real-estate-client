@@ -1,12 +1,14 @@
 import envConfig from '@/config'
 import { RegisterResType } from '@/schemaValidations/authSchemaValidation'
 import { normalizePath } from '@/utils/utils'
+import { redirect } from 'next/navigation'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
   baseUrl?: string
 }
 
 const ENTITY_ERRORS_STATUS = 422
+const AUTHENTICATION_ERRORS_STATUS = 401
 
 type EntityErrorPayload = {
   message: string
@@ -59,6 +61,8 @@ class SessionToken {
 
 export const clientSessionToken = new SessionToken()
 
+let clientLogoutRequest: null | Promise<any> = null
+
 const request = async <Response>(
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
   url: string,
@@ -90,6 +94,7 @@ const request = async <Response>(
     status: res.status,
     payload
   }
+  console.log('🐻 ~ data:', data)
 
   if (!res.ok) {
     if (res.status === ENTITY_ERRORS_STATUS) {
@@ -99,6 +104,27 @@ const request = async <Response>(
           payload: EntityErrorPayload
         }
       )
+    } else if (res.status === AUTHENTICATION_ERRORS_STATUS) {
+      if (typeof window !== 'undefined') {
+        if (!clientLogoutRequest) {
+          clientLogoutRequest = fetch('/api/auth/logout', {
+            method: 'POST',
+            body: JSON.stringify({ force: true }),
+            headers: {
+              ...baseHeader
+            }
+          })
+          await clientLogoutRequest
+          clientSessionToken.value = ''
+          clientLogoutRequest = null
+          console.log('Đăng xuất thành công')
+          location.href = '/'
+        }
+      } else {
+        // Xử lý ở server
+        const token = (options?.headers as any)?.Authorization.split(' ')[1]
+        redirect(`/logout?token=${token}`)
+      }
     } else {
       throw new HttpError(data)
     }

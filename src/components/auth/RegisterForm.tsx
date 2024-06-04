@@ -60,6 +60,7 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
         duration: 4000,
         isClosable: true
       })
+      onClose()
       await authApiRequest.auth({
         accessToken: result.payload.data.access_token,
         refreshToken: result.payload.data.refresh_token,

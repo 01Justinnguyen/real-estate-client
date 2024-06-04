@@ -1,13 +1,11 @@
 import { create } from 'zustand'
 
 interface AppStore {
-  isShowModal: boolean
-  setShowModal: (show: boolean) => void
-  pathname: string | null
+  isHomePage: boolean
+  setIsHomePage: (isHomePage: boolean) => void
 }
 
 export const useAppStore = create<AppStore>()((set) => ({
-  isShowModal: false,
-  pathname: null,
-  setShowModal: (show: boolean) => set({ isShowModal: show })
+  isHomePage: false,
+  setIsHomePage: (isHomePage) => set({ isHomePage })
 }))
