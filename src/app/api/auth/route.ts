@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   const res = await request.json()
-  console.log('🐻 ~ POST ~ res:', res)
   const accessToken = res.accessToken
   const refreshToken = res.refreshToken
   const accessExpiresDate = res.accessExpiresDate

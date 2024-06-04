@@ -3,11 +3,15 @@ import { HiOutlineMailOpen } from 'react-icons/hi'
 import { FaFacebookF, FaDribbble, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
 import { FiPhone } from 'react-icons/fi'
 import DarkLightMode from '@/components/common/DarkLightMode'
-import useClientPathName from '@/hooks/useClientPathName'
+import { headers } from 'next/headers'
 
-export default function TopHeader() {
+interface TopHeaderProps {
+  isHomePage: boolean
+}
+
+export default function TopHeader({ isHomePage }: TopHeaderProps) {
   console.log('Topherader render ở đâu này')
-  const pathname = useClientPathName()
+
   return (
     <Box
       sx={{ borderBottom: '2px #fff' }}
@@ -15,7 +19,7 @@ export default function TopHeader() {
       top='0'
       zIndex='50'
       h='85px'
-      // bg={`${pathname !== '/' ? 'primary.700' : 'transparent'}`}
+      bg={`${isHomePage ? 'transparent' : 'primary.700'}`}
       position='fixed'
       p='26px 100px'
     >
