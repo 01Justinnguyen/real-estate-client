@@ -33,7 +33,11 @@ export default function LoginForm({ onClose }: LoginFormProps) {
     setError,
     formState: { errors }
   } = useForm<LoginBodyType>({
-    resolver: zodResolver(LoginBody)
+    resolver: zodResolver(LoginBody),
+    defaultValues: {
+      phone: '',
+      password: ''
+    }
   })
 
   async function onSubmit(values: LoginBodyType) {
@@ -47,6 +51,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         duration: 4000,
         isClosable: true
       })
+      onClose()
       await authApiRequest.auth({
         accessToken: result.payload.data.access_token,
         refreshToken: result.payload.data.refresh_token,
@@ -85,7 +90,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
           <Button type='submit' colorScheme='blue' mr={3}>
             Sign in
           </Button>
-          <button onClick={onClose}>Cancel</button>
+          <Button onClick={onClose}>Cancel</Button>
         </ModalFooter>
       </form>
     </>

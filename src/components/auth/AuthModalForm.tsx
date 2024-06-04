@@ -25,7 +25,7 @@ import {
   FormHelperText,
   HStack
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useRef } from 'react'
 
 interface ModalFormTypes {
   isOpen: boolean
@@ -33,8 +33,8 @@ interface ModalFormTypes {
 }
 
 export default function AuthModalForm({ isOpen, onClose }: ModalFormTypes) {
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)
+  const initialRef = useRef(null)
+  const finalRef = useRef(null)
   return (
     <>
       <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>

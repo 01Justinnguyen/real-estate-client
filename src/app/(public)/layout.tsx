@@ -1,26 +1,19 @@
-'use client'
-
-import AuthModalForm from '@/components/common/AuthModalForm'
 import Navigation from '@/components/Navigation'
 import TopHeader from '@/components/TopHeader'
-import useClientPathName from '@/hooks/useClientPathName'
-import { useAppStore } from '@/store/useAppStore'
 import { Box } from '@chakra-ui/react'
+import { headers } from 'next/headers'
 
 export default function AuthLayout({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const { isShowModal, setShowModal } = useAppStore()
-  const pathname = useClientPathName()
-
+  const isHomePage = headers().get('x-is-home-page') === 'true'
   return (
-    <div>
-      <TopHeader />
-      <Navigation />
-      <Box pt={`${pathname !== '/' ? '170px' : '0px'}`}>{children}</Box>
-      <AuthModalForm isOpen={isShowModal} onClose={() => setShowModal(false)} />
-    </div>
+    <Box>
+      <TopHeader isHomePage={isHomePage} />
+      <Navigation isHomePage={isHomePage} />
+      <Box pt={`${isHomePage ? '0' : '170px'}`}>{children}</Box>
+    </Box>
   )
 }
