@@ -5,8 +5,8 @@ export async function POST(request: Request) {
   const res = await request.json()
   const accessToken = res.accessToken
   const refreshToken = res.refreshToken
-  const accessExpiresDate = res.accessExpiresDate
-  const refreshExpiresDate = res.refreshExpiresDate
+  const accessExpiresDate = new Date(res.accessExpiresDate)
+  const refreshExpiresDate = new Date(res.refreshExpiresDate)
 
   if (!accessToken || !refreshToken) {
     return new NextResponse(
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     sameSite: 'lax',
     path: '/',
     secure: process.env.NODE_ENV !== 'development',
-    expires: new Date(accessExpiresDate)
+    expires: accessExpiresDate
   })
 
   // Refreshtoken cookie
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     sameSite: 'lax',
     path: '/',
     secure: process.env.NODE_ENV !== 'development',
-    expires: new Date(refreshExpiresDate)
+    expires: refreshExpiresDate
   })
 
   const headers = new Headers()

@@ -4,14 +4,16 @@ import authApiRequest from '@/apis/auth'
 import ButtonCustom from '@/components/common/ButtonCustom'
 import { handleErrorApi } from '@/utils/errorsHandler'
 import { useToast } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface ButonLogoutProps {
   isHomePage: boolean
 }
 
-export default function ButonLogout({ isHomePage }: ButonLogoutProps) {
+export default function ButtonLogout({ isHomePage }: ButonLogoutProps) {
   const toast = useToast()
+  const router = useRouter()
   const handleLogout = async () => {
     try {
       await authApiRequest.logoutFromNextClientToNextServer()
@@ -23,9 +25,13 @@ export default function ButonLogout({ isHomePage }: ButonLogoutProps) {
         duration: 4000,
         isClosable: true
       })
+      router.push('/')
     } catch (errors) {
       handleErrorApi({
         errors
+      })
+      await authApiRequest.logoutFromNextClientToNextServer(true).then((res) => {
+        router.push('/')
       })
     }
   }
