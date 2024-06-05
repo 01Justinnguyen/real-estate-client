@@ -47,6 +47,7 @@ export class EntityError extends HttpError {
 
 class SessionToken {
   private token = ''
+  private _expiresAt = new Date().toISOString()
   get value() {
     return this.token
   }
@@ -56,6 +57,16 @@ class SessionToken {
       throw new Error('Cannot set token on server side')
     }
     this.token = token
+  }
+  get expiresAt() {
+    return this._expiresAt
+  }
+  set expiresAt(expiresAt: string) {
+    // Nếu gọi method này ở server sẽ bị lỗi
+    if (typeof window === undefined) {
+      throw new Error('Cannot set token on server side')
+    }
+    this._expiresAt = expiresAt
   }
 }
 
@@ -94,7 +105,6 @@ const request = async <Response>(
     status: res.status,
     payload
   }
-  console.log('🐻 ~ data:', data)
 
   if (!res.ok) {
     if (res.status === ENTITY_ERRORS_STATUS) {
@@ -116,6 +126,7 @@ const request = async <Response>(
           })
           await clientLogoutRequest
           clientSessionToken.value = ''
+          clientSessionToken.expiresAt = new Date().toISOString()
           clientLogoutRequest = null
           console.log('Đăng xuất thành công')
           location.href = '/'
@@ -134,8 +145,10 @@ const request = async <Response>(
   if (typeof window !== 'undefined') {
     if (['/v1/auth/login', '/v1/auth/register'].some((item) => item === normalizePath(url))) {
       clientSessionToken.value = (payload as RegisterResType).data.access_token
+      clientSessionToken.expiresAt = (payload as RegisterResType).data.access_token_expiresAt
     } else if ('/v1/auth/logout' === normalizePath(url)) {
       clientSessionToken.value = ''
+      clientSessionToken.expiresAt = new Date().toISOString()
     }
   }
 
@@ -146,7 +159,7 @@ const http = {
   get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
     return request<Response>('GET', url, options)
   },
-  post<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
+  post<Response>(url: string, body?: any, options?: Omit<CustomOptions, 'body'> | undefined) {
     return request<Response>('POST', url, { ...options, body })
   },
   put<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {

@@ -11,13 +11,17 @@ export default function Logout() {
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   useEffect(() => {
+    async function ForceLogout() {
+      if (token === clientSessionToken.value) {
+        await authApiRequest.logoutFromNextClientToNextServer(true).then((res) => {
+          router.push('/')
+        })
+      }
+    }
+    ForceLogout()
     // const controller = new AbortController()
     // const signal = controller.signal
-    if (token === clientSessionToken.value) {
-      authApiRequest.logoutFromNextClientToNextServer(true).then((res) => {
-        router.push(`/`)
-      })
-    }
+
     // return () => {
     //   controller.abort()
     // }

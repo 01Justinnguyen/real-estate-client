@@ -1,6 +1,6 @@
 import { clientSessionToken } from '@/app/http'
-import ButonLogout from '@/components/navigation/_components/ButonLogout'
 import ButtonAddListing from '@/components/navigation/_components/ButtonAddListing'
+import ButtonLogout from '@/components/navigation/_components/ButtonLogout'
 import ButtonSignIn from '@/components/navigation/_components/ButtonSignIn'
 import MenuNav from '@/components/navigation/_components/MenuNav'
 import NavLogo from '@/components/navigation/_components/NavLogo'
@@ -39,7 +39,7 @@ export default function Navigation({ isHomePage }: NavigationProps) {
             ) : (
               <>
                 <ButtonAddListing isHomePage={isHomePage} />
-                <ButonLogout isHomePage={isHomePage} />
+                <ButtonLogout isHomePage={isHomePage} />
               </>
             )}
           </Stack>

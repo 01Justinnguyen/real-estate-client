@@ -4,6 +4,7 @@ import { ColorModeScript } from '@chakra-ui/react'
 import { cookies } from 'next/headers'
 import theme from './theme'
 import './globals.css'
+import RefreshToken from '@/components/auth/RefreshToken'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +21,10 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Providers initialToken={token}>{children}</Providers>
+        <Providers initialToken={token}>
+          {children}
+          <RefreshToken />
+        </Providers>
       </body>
     </html>
   )

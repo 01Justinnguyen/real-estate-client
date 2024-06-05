@@ -2,6 +2,7 @@ import http from '@/app/http'
 import {
   LoginBodyType,
   LoginResType,
+  RefreshTokenResType,
   RegisterBodyType,
   RegisterResType
 } from '@/schemaValidations/authSchemaValidation'
@@ -11,7 +12,7 @@ const authApiRequest = {
   login: (body: LoginBodyType) => http.post<LoginResType>('/v1/auth/login', body),
   register: (body: RegisterBodyType) => http.post<RegisterResType>('/v1/auth/register', body),
 
-  auth: (body: { accessToken: string; accessExpiresDate: Date; refreshToken: string; refreshExpiresDate: Date }) =>
+  auth: (body: { accessToken: string; accessExpiresDate: string; refreshToken: string; refreshExpiresDate: string }) =>
     http.post('/api/auth', body, {
       baseUrl: ''
     }),
@@ -36,6 +37,20 @@ const authApiRequest = {
       {
         baseUrl: '',
         signal
+      }
+    ),
+
+  refreshTokenFromNextServerToServer: (refresh_token: string) =>
+    http.post<RefreshTokenResType>('/v1/auth/refresh-token', {
+      refresh_token
+    }),
+
+  refreshTokenFromNextClientToNextServer: () =>
+    http.post<RefreshTokenResType>(
+      '/api/auth/refresh-token',
+      {},
+      {
+        baseUrl: ''
       }
     )
 }
