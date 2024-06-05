@@ -44,9 +44,9 @@ export const RegisterRes = z.object({
   message: z.string(),
   data: z.object({
     access_token: z.string(),
-    access_token_expiresAt: z.date(),
+    access_token_expiresAt: z.string(),
     refresh_token: z.string(),
-    refresh_token_expiresAt: z.date()
+    refresh_token_expiresAt: z.string()
   })
 })
 
@@ -76,9 +76,9 @@ export const LoginRes = z.object({
   message: z.string(),
   data: z.object({
     access_token: z.string(),
-    access_token_expiresAt: z.date(),
+    access_token_expiresAt: z.string(),
     refresh_token: z.string(),
-    refresh_token_expiresAt: z.date()
+    refresh_token_expiresAt: z.string()
   })
 })
 
@@ -99,9 +99,9 @@ export const RefreshTokenRes = z.object({
   message: z.string(),
   data: z.object({
     new_access_token: z.string(),
-    access_token_expiresAt: z.date(),
+    access_token_expiresAt: z.string(),
     new_refresh_token: z.string(),
-    refresh_token_expiresAt: z.date()
+    refresh_token_expiresAt: z.string()
   })
 })
 
