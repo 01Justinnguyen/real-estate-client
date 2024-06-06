@@ -38,7 +38,7 @@ export default function Profile() {
       </MenuButton>
       <MenuList>
         <MenuGroup title='Profile'>
-          <MenuItem>Account Settings</MenuItem>
+          <MenuItem onClick={() => router.push('/profile-setting')}>Account Settings</MenuItem>
           <MenuItem>Payments </MenuItem>
           <MenuItem onClick={handleLogout}>Logout </MenuItem>
         </MenuGroup>
