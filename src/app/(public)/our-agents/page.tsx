@@ -1,4 +1,3 @@
-import accountApiRequest from '@/apis/client'
 import { clientSessionToken } from '@/app/http'
 
 export default async function OutAgentsPage() {
