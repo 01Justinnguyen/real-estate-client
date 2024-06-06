@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -7,10 +8,6 @@ import {
   HStack,
   Input,
   InputProps,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  ModalHeader,
   Radio,
   RadioGroup,
   useToast
@@ -26,10 +23,9 @@ import { handleErrorApi } from '@/utils/errorsHandler'
 
 interface RegisterFormProps extends InputProps {
   onClose: () => void
-  initialRef: MutableRefObject<null | HTMLInputElement>
 }
 
-export default function RegisterForm({ onClose, initialRef }: RegisterFormProps) {
+export default function RegisterForm({ onClose }: RegisterFormProps) {
   const toast = useToast()
   const {
     register,
@@ -60,6 +56,7 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
         duration: 4000,
         isClosable: true
       })
+      location.reload()
       onClose()
       await authApiRequest.auth({
         accessToken: result.payload.data.access_token,
@@ -68,6 +65,7 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
         refreshExpiresDate: result.payload.data.refresh_token_expiresAt
       })
       clientSessionToken.value = result.payload.data.access_token
+      clientSessionToken.expiresAt = result.payload.data.access_token_expiresAt
     } catch (error: any) {
       handleErrorApi({
         errors,
@@ -79,63 +77,58 @@ export default function RegisterForm({ onClose, initialRef }: RegisterFormProps)
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Create your account</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <FormControl isInvalid={!!errors.name}>
-            <FormLabel>Your fullname</FormLabel>
-            <Input placeholder='Type your full name' {...register('name')} />
-            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl isInvalid={!!errors.name}>
+          <FormLabel>Your fullname</FormLabel>
+          <Input placeholder='Type your full name' {...register('name')} />
+          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.email}>
-            <FormLabel>Your Email</FormLabel>
-            <Input placeholder='Type your email' {...register('email')} />
-            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl mt={4} isInvalid={!!errors.email}>
+          <FormLabel>Your Email</FormLabel>
+          <Input placeholder='Type your email' {...register('email')} />
+          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.phone}>
-            <FormLabel>Phone Number</FormLabel>
-            <Input placeholder='Type your phone number' {...register('phone')} />
-            <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl mt={4} isInvalid={!!errors.phone}>
+          <FormLabel>Phone Number</FormLabel>
+          <Input placeholder='Type your phone number' {...register('phone')} />
+          <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.password}>
-            <FormLabel>Password</FormLabel>
-            <PasswordInput placeholder='Type your password' name='password' register={register} />
-            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl mt={4} isInvalid={!!errors.password}>
+          <FormLabel>Password</FormLabel>
+          <PasswordInput placeholder='Type your password' name='password' register={register} />
+          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.confirmPassword}>
-            <FormLabel>Confirm password</FormLabel>
-            <PasswordInput placeholder='Type your confirm password' name='confirmPassword' register={register} />
-            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl mt={4} isInvalid={!!errors.confirmPassword}>
+          <FormLabel>Confirm password</FormLabel>
+          <PasswordInput placeholder='Type your confirm password' name='confirmPassword' register={register} />
+          <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.role}>
-            <FormLabel>Select your role</FormLabel>
-            <Controller
-              name='role'
-              control={control}
-              render={({ field }) => (
-                <RadioGroup defaultValue='USER' {...field}>
-                  <HStack spacing='24px'>
-                    <Radio value='USER'>User</Radio>
-                    <Radio value='AGENT'>Agent</Radio>
-                  </HStack>
-                </RadioGroup>
-              )}
-            />
-            <FormHelperText>Select only if you're a fan.</FormHelperText>
-            <FormErrorMessage>{errors.role?.message}</FormErrorMessage>
-          </FormControl>
-        </ModalBody>
-        <ModalFooter>
+        <FormControl mt={4} isInvalid={!!errors.role}>
+          <FormLabel>Select your role</FormLabel>
+          <Controller
+            name='role'
+            control={control}
+            render={({ field }) => (
+              <RadioGroup defaultValue='USER' {...field}>
+                <HStack spacing='24px'>
+                  <Radio value='USER'>User</Radio>
+                  <Radio value='AGENT'>Agent</Radio>
+                </HStack>
+              </RadioGroup>
+            )}
+          />
+          <FormHelperText>Select only if you're a fan.</FormHelperText>
+          <FormErrorMessage>{errors.role?.message}</FormErrorMessage>
+        </FormControl>
+        <Flex justify='flex-end' mt={4}>
           <Button type='submit' colorScheme='blue' mr={3}>
             Sign up
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
+        </Flex>
       </form>
     </>
   )

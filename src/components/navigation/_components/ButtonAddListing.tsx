@@ -12,7 +12,7 @@ export default function ButtonAddListing({ isHomePage }: ButtonAddListingProps) 
         bg: 'gray.500'
       }}
       fontWeight={400}
-      color={`${isHomePage ? 'primary.900' : 'white'}`}
+      color={`${isHomePage ? 'white' : 'primary.900'}`}
       variant='outline'
     >
       Add Listing
