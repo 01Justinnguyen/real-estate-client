@@ -5,12 +5,13 @@ import MenuNav from '@/components/navigation/_components/MenuNav'
 import NavLogo from '@/components/navigation/_components/NavLogo'
 import Profile from '@/components/navigation/_components/Profile'
 import { Box, Flex, Stack } from '@chakra-ui/react'
-import { headers } from 'next/headers'
+import { headers, cookies } from 'next/headers'
 
 interface NavigationProps {}
 
 export default function Navigation({}: NavigationProps) {
   console.log('From navigation', clientSessionToken.value)
+  const isAccess = cookies().get('accessToken')?.value
   const pathname = headers().get('x-current-path')
   const isHomePage = pathname === '/'
   return (
@@ -32,7 +33,7 @@ export default function Navigation({}: NavigationProps) {
           <Stack direction='row' spacing={4} align='center'>
             <MenuNav isHomePage={isHomePage} />
 
-            {!clientSessionToken.value ? (
+            {!isAccess ? (
               <ButtonSignIn isHomePage={isHomePage} />
             ) : (
               <>
