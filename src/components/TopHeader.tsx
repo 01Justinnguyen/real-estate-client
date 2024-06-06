@@ -5,13 +5,12 @@ import { FiPhone } from 'react-icons/fi'
 import DarkLightMode from '@/components/common/DarkLightMode'
 import { headers } from 'next/headers'
 
-interface TopHeaderProps {
-  isHomePage: boolean
-}
+interface TopHeaderProps {}
 
-export default function TopHeader({ isHomePage }: TopHeaderProps) {
+export default function TopHeader({}: TopHeaderProps) {
   console.log('Topherader render ở đâu này')
-
+  const pathname = headers().get('x-current-path')
+  const isHomePage = pathname === '/'
   return (
     <Box
       sx={{ borderBottom: '2px #fff' }}

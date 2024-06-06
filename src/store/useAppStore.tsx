@@ -1,11 +1,5 @@
 import { create } from 'zustand'
 
-interface AppStore {
-  isHomePage: boolean
-  setIsHomePage: (isHomePage: boolean) => void
-}
+interface AppStore {}
 
-export const useAppStore = create<AppStore>()((set) => ({
-  isHomePage: false,
-  setIsHomePage: (isHomePage) => set({ isHomePage })
-}))
+export const useAppStore = create<AppStore>()((set) => ({}))
