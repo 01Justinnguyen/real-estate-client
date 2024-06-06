@@ -1,17 +1,12 @@
 'use client'
 
 import authApiRequest from '@/apis/auth'
-import ButtonCustom from '@/components/common/ButtonCustom'
 import { handleErrorApi } from '@/utils/errorsHandler'
-import { useToast } from '@chakra-ui/react'
+import { Avatar, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-interface ButonLogoutProps {
-  isHomePage: boolean
-}
-
-export default function ButtonLogout({ isHomePage }: ButonLogoutProps) {
+export default function Profile() {
   const toast = useToast()
   const router = useRouter()
   const handleLogout = async () => {
@@ -26,6 +21,7 @@ export default function ButtonLogout({ isHomePage }: ButonLogoutProps) {
         isClosable: true
       })
       router.push('/')
+      location.reload()
     } catch (errors) {
       handleErrorApi({
         errors
@@ -36,16 +32,18 @@ export default function ButtonLogout({ isHomePage }: ButonLogoutProps) {
     }
   }
   return (
-    <ButtonCustom
-      _hover={{
-        bg: 'gray.500'
-      }}
-      onClick={handleLogout}
-      fontWeight={400}
-      color={`${isHomePage ? 'white' : 'primary.900'}`}
-      variant='outline'
-    >
-      Logout
-    </ButtonCustom>
+    <Menu>
+      <MenuButton as={'button'}>
+        <Avatar src='https://avatars.githubusercontent.com/u/87435674?v=4' />
+      </MenuButton>
+      <MenuList>
+        <MenuGroup title='Profile'>
+          <MenuItem>Account Settings</MenuItem>
+          <MenuItem>Payments </MenuItem>
+          <MenuItem onClick={handleLogout}>Logout </MenuItem>
+        </MenuGroup>
+        <MenuDivider />
+      </MenuList>
+    </Menu>
   )
 }

@@ -14,19 +14,21 @@ import {
   ModalHeader,
   InputProps,
   FormErrorMessage,
-  useToast
+  useToast,
+  Flex
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { MutableRefObject } from 'react'
+import { useRouter } from 'next/navigation'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 
 interface LoginFormProps extends InputProps {
   onClose: () => void
-  initialRef: MutableRefObject<null | HTMLInputElement>
 }
 
 export default function LoginForm({ onClose }: LoginFormProps) {
   const toast = useToast()
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -51,6 +53,8 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         duration: 4000,
         isClosable: true
       })
+      router.refresh()
+      router.push('/')
       onClose()
       await authApiRequest.auth({
         accessToken: result.payload.data.access_token,
@@ -59,6 +63,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         refreshExpiresDate: result.payload.data.refresh_token_expiresAt
       })
       clientSessionToken.value = result.payload.data.access_token
+      clientSessionToken.expiresAt = result.payload.data.access_token_expiresAt
     } catch (errors: any) {
       handleErrorApi({
         errors,
@@ -70,28 +75,23 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Login</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <FormControl isInvalid={!!errors.phone}>
-            <FormLabel>Phone Number</FormLabel>
-            <Input placeholder='Type your phone number' {...register('phone')} />
-            <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
-          </FormControl>
+        <FormControl isInvalid={!!errors.phone}>
+          <FormLabel>Phone Number</FormLabel>
+          <Input placeholder='Type your phone number' {...register('phone')} />
+          <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
+        </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.password}>
-            <FormLabel>Password</FormLabel>
-            <PasswordInput placeholder='Type your password' name='password' register={register} />
-            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-          </FormControl>
-        </ModalBody>
+        <FormControl mt={4} isInvalid={!!errors.password}>
+          <FormLabel>Password</FormLabel>
+          <PasswordInput placeholder='Type your password' name='password' register={register} />
+          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+        </FormControl>
 
-        <ModalFooter>
-          <Button type='submit' colorScheme='blue' mr={3}>
+        <Flex justify='flex-end' mt={4}>
+          <Button colorScheme='blue' type='submit'>
             Sign in
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
+        </Flex>
       </form>
     </>
   )

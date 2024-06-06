@@ -1,5 +1,6 @@
 import ButtonCustom from '@/components/common/ButtonCustom'
 import { navigation } from '@/constants/constants'
+import { Text } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,7 +9,8 @@ interface MenuNavProps {
 }
 
 export default function MenuNav({ isHomePage }: MenuNavProps) {
-  console.log('🐻 ~ MenuNav ~ isHomePage:', isHomePage)
+  // console.log('🐻 ~ MenuNav ~ isHomePage:', isHomePage)
+  // console.log('Menu nav,  Rerender nè vì login')
   return (
     <>
       {navigation.map((navItem) => {
@@ -22,7 +24,7 @@ export default function MenuNav({ isHomePage }: MenuNavProps) {
               fontWeight={400}
               color={`${isHomePage ? 'white' : 'primary.900'}`}
             >
-              {navItem.content}
+              <Text>{navItem.content}</Text>
             </ButtonCustom>
           </Link>
         )

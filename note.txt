@@ -1,11 +1,11 @@
 Những lỗi còn tồn động
 - Lỗi re render quá nhiều
  * Nguyễn nhân
-   + open và close modal gây ra ✅
-   + hook usePathName gây ra    ✅
+   + open và close modal gây ra => vẫn chưa khắc phục triệt để 
 
-- Lỗi Navigation lần đầu truy cập có màu sắc không đúng với chỉ định
+- Lỗi Navigation có màu sắc không đúng với chỉ định 
 
 - Lỗi hiển thị màu sắc theme dark light mode của chakra UI
 
-- Lỗi khi đăng xuất button không thay đổi
+- Lỗi khi đăng xuất button không thay đổi ✅
+- Lỗi khi đăng nhập button không thay đổi 

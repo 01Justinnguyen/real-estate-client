@@ -18,7 +18,6 @@ export async function POST(request: Request) {
 
   try {
     const res = await authApiRequest.refreshTokenFromNextServerToServer(refreshToken)
-    console.log('🐻 ~ POST ~ res:', res)
     const new_access_token = res.payload.data.new_access_token
     const new_refresh_token = res.payload.data.new_refresh_token
     const new_access_token_expiresAt = new Date(res.payload.data.access_token_expiresAt)
