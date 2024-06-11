@@ -1,5 +1,12 @@
 # The Real Estate Client by Liamdev 🏨🏢🏘️
 
+<br>
+<h2 align="center">🛠 Technologies and Tools 🛠</h2>
+<br>
+<!-- https://simpleicons.org/ -->
+<span><img src="https://img.shields.io/badge/Nextjs-282C34?logo=react&logoColor=#52b0e7" alt="Nextjs logo" title="Nextjs" height="25" /></span>
+<br>
+
 ## Requirements
 
 - **nodejs >= v14.7.0**
