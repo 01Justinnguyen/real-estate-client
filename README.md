@@ -29,8 +29,7 @@
 &nbsp;
 <span><img src="https://img.shields.io/badge/ESLint-282C34?logo=eslint&logoColor=4B32C3" alt="ESLint logo" title="ESLint" height="25" /></span>
 &nbsp;
-<span><img src="https://img.shields.io/badge/Prettier-282C34?logo=prettier&logoColor=#52b0e7" alt="MongoDB logo" title="MongoDB" height="25" /></span>
-&nbsp;
+<span><img src="https://img.shields.io/badge/Prettier-282C34?logo=prettier&logoColor=#52b0e7" alt="Prettier logo" title="Prettier" height="25" /></span>
 <br>
 
 
