@@ -36,7 +36,6 @@
 
 <br>
 <h3>## Requirements</h3>
-<br>
 
 - **nodejs >= v14.7.0**
 - **npm >= v6.14.7**
