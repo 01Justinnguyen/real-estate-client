@@ -28,10 +28,12 @@
 &nbsp;
 <span><img src="https://img.shields.io/badge/Prettier-282C34?logo=prettier&logoColor=#52b0e7" alt="MongoDB logo" title="MongoDB" height="25" /></span>
 &nbsp;
+<br>
 
 
 <br>
 ## Requirements
+<br>
 
 - **nodejs >= v14.7.0**
 - **npm >= v6.14.7**
