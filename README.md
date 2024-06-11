@@ -13,7 +13,7 @@
 &nbsp;
 <span><img src="https://img.shields.io/badge/Tailwind%20CSS-282C34?logo=tailwind-css&logoColor=38B2AC" alt="TailwindCSS logo" title="TailwindCSS" height="25" /></span>
 &nbsp;
-<span><img src="https://img.shields.io/badge/zustand-282C34?logo=redux&logoColor=#52b0e7" alt="Zustand logo" title="Zustand" height="25" /></span>
+<span><img src="https://img.shields.io/badge/Zustand-282C34?logo=redux&logoColor=#52b0e7" alt="Zustand logo" title="Zustand" height="25" /></span>
 &nbsp;
 <span><img src="https://img.shields.io/badge/Javascript-282C34?logo=javascript&logoColor=#52b0e7" alt="Javascript logo" title="Javascript" height="25" /></span>
 &nbsp;
