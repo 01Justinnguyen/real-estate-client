@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { RegisterBody, RegisterBodyType } from '@/schemaValidations/authSchemaValidation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { MutableRefObject } from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import PasswordInput from '@/components/auth/PasswordInput'
 import authApiRequest from '@/apis/auth'
@@ -26,6 +26,7 @@ interface RegisterFormProps extends InputProps {
 }
 
 export default function RegisterForm({ onClose }: RegisterFormProps) {
+  const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
   const {
     register,
@@ -46,6 +47,8 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
   })
 
   async function onSubmit(values: RegisterBodyType) {
+    if (loading) return
+    setLoading(true)
     try {
       const result = await authApiRequest.register(values)
       toast({
@@ -71,6 +74,8 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
         errors,
         setError
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -125,7 +130,7 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
           <FormErrorMessage>{errors.role?.message}</FormErrorMessage>
         </FormControl>
         <Flex justify='flex-end' mt={4}>
-          <Button type='submit' colorScheme='blue' mr={3}>
+          <Button type='submit' isLoading={loading} loadingText='Submitting' colorScheme='blue' mr={3}>
             Sign up
           </Button>
         </Flex>
