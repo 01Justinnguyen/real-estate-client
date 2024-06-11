@@ -1,4 +1,7 @@
+
+<h1 align="center">
 # The Real Estate Client by Liamdev 🏨🏢🏘️
+</h1>
 
 <br>
 <h2 align="center">🛠 Technologies and Tools 🛠</h2>
