@@ -1,24 +1,11 @@
 import accountApiRequest from '@/apis/client'
 import UpdateForm from '@/components/client/UpdateForm'
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  FormControl,
-  FormLabel,
-  Heading,
-  Image,
-  Input,
-  Text
-} from '@chakra-ui/react'
+import { Box, Card, CardBody, CardHeader, Heading } from '@chakra-ui/react'
 import { cookies } from 'next/headers'
 
 export default async function ProfileSetting() {
   const token = cookies().get('accessToken')?.value
   const result = await accountApiRequest.getMeServer(token as string)
-  console.log('🐻 ~ ProfileSetting ~ result:', result)
   return (
     <Box p='100px 100px'>
       <Heading as='h2' size='2xl' mb='30px'>

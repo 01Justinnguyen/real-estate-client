@@ -1,5 +1,6 @@
 import http from '@/app/http'
-import { GetMeProfileResType } from '@/schemaValidations/client.schema'
+import { GetMeProfileResType, UpdateProfileBodyType } from '@/schemaValidations/client.schema'
+import { MessageResType } from '@/schemaValidations/common.schema'
 
 const accountApiRequest = {
   getMeServer: (token: string) =>
@@ -8,7 +9,8 @@ const accountApiRequest = {
         Authorization: `Bearer ${token}`
       }
     }),
-  getMeProfile: () => http.get<GetMeProfileResType>('/v1/client/getMeProfile')
+  getMeProfile: () => http.get<GetMeProfileResType>('/v1/client/getMeProfile'),
+  updateMeProfile: (body: UpdateProfileBodyType) => http.patch<MessageResType>('/v1/client/updateMeProfile', body)
 }
 
 export default accountApiRequest

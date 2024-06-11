@@ -3,23 +3,10 @@ import { clientSessionToken } from '@/app/http'
 import PasswordInput from '@/components/auth/PasswordInput'
 import { LoginBody, LoginBodyType } from '@/schemaValidations/authSchemaValidation'
 import { handleErrorApi } from '@/utils/errorsHandler'
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  ModalHeader,
-  InputProps,
-  FormErrorMessage,
-  useToast,
-  Flex
-} from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, InputProps, FormErrorMessage, useToast, Flex } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface LoginFormProps extends InputProps {
@@ -27,6 +14,7 @@ interface LoginFormProps extends InputProps {
 }
 
 export default function LoginForm({ onClose }: LoginFormProps) {
+  const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
   const router = useRouter()
   const {
@@ -43,6 +31,8 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   })
 
   async function onSubmit(values: LoginBodyType) {
+    if (loading) return
+    setLoading(true)
     try {
       const result = await authApiRequest.login(values)
       toast({
@@ -69,6 +59,8 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         errors,
         setError
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -88,7 +80,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
         </FormControl>
 
         <Flex justify='flex-end' mt={4}>
-          <Button colorScheme='blue' type='submit'>
+          <Button isLoading={loading} loadingText='Submitting' colorScheme='blue' type='submit'>
             Sign in
           </Button>
         </Flex>
